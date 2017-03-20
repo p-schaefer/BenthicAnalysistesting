@@ -1,0 +1,18 @@
+Package: BenthicAnalysis
+Type: Package
+Title: Benthic Analysis with Test Site Anlysis
+Version: 0.1-22
+Date: 2016-04-22
+Authors@R: person("Patrick", "Schaefer", role = c("aut", "cre"),email = "pschaefer@creditvalleyca.ca")
+Author: Patrick Schaefer [aut, cre]
+Maintainer: Patrick Schaefer <pschaefer@creditvalleyca.ca>
+Description: A package for analysis of Benthic Macroinvertebrate (BMI) data
+    using a Reference Condition Approach using the Test Site Analysis (Bowman and Somer 2006). This package
+    also allows calculation of multiple commonly used metrics used for studying BMI,
+    two methods of Nearest-Neighbour matching of test sites with reference sites and
+    quantification of error by means of Jacknife Confidence Intervals as well as
+    a randomization test for the significance of a test site departures from reference conditions.
+Depends:MASS,RColorBrewer,robustbase,vegan,biotools,caret,shiny, gplots,mvoutlier,testit,car
+License: GPL (>= 2)
+LazyData: TRUE
+RoxygenNote: 5.0.1
