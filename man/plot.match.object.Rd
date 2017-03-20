@@ -4,7 +4,7 @@
 \alias{plot.match.object}
 \title{Plot of nearest-neighbour reference site distances to test site}
 \usage{
-plot.match.object(match.object)
+\method{plot}{match.object}(match.object)
 }
 \arguments{
 \item{site.match.object}{An object from \code{\link[BenthicAnalysis]{"site.match"}}}

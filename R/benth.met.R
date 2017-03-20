@@ -55,7 +55,7 @@ benth.met<-function(x,tax.fields=2,site.fields,HBI=NULL) {
   colnames(taxa)<-taxa.names
   rownames(taxa)<-site.names
 
-  taxa.pa<-decostand(taxa,method="pa")
+  taxa.pa<-vegan::decostand(taxa,method="pa")
   taxa.rel<-sweep(taxa,rowSums(taxa),MARGIN=1,FUN="/")
   taxa.intol<-taxa[,taxa.names[grep(grep.paste(HBI[which(HBI[,2]<5),1]),taxa.names)]]
   n.taxa<-ncol(taxa)

@@ -4,7 +4,7 @@
 \alias{plot.tsa.object}
 \title{Mahalanobis distance plot}
 \usage{
-plot.tsa.object(tsa.object)
+\method{plot}{tsa.object}(tsa.object)
 }
 \arguments{
 \item{tsa.object}{An object from \code{tsa.test}}
