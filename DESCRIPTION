@@ -12,7 +12,7 @@ Description: A package for analysis of Benthic Macroinvertebrate (BMI) data
     two methods of Nearest-Neighbour matching of test sites with reference sites and
     quantification of error by means of Jacknife Confidence Intervals as well as
     a randomization test for the significance of a test site departures from reference conditions.
-Imports:MASS,RColorBrewer,robustbase,vegan,biotools,caret,gplots,testit,car
+Imports:vegan
 License: GPL (>= 2)
 LazyData: TRUE
 RoxygenNote: 5.0.1
