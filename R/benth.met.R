@@ -80,8 +80,8 @@ benth.met<-function(x,tax.fields=2,site.fields,HBI=NULL) {
   abund<-rowSums(taxa)
 
   summ$Richness<-richness.calc(taxa)
-  summ$Simpson<-diversity(taxa,index="simpson")
-  summ$Shannon<-diversity(taxa,index="shannon")
+  summ$Simpson<-vegan::diversity(taxa,index="simpson")
+  summ$Shannon<-vegan::diversity(taxa,index="shannon")
   summ$'Percent.Dominance'<-(apply(taxa, 1, max))/abund
   summ$'Percent.Oligochaeta'<-adapt.sum(taxa[,grep(grep.paste(c("Oligochaetae","Oligochaeta","Oligochaete","Lumbriculida","Haplotaxida","Clitellata","Naidina")),colnames(taxa))])/abund
   summ$'Percent.Chironomidae'<-adapt.sum(taxa[,grep(grep.paste(c("Chironomidae","Chironominae","Tanypodinae","Diamesinae","Orthocladiinae","Podonominae","Prodiamesinae","Telmatogetoninae")),colnames(taxa))])/abund
