@@ -2,8 +2,7 @@
 #'
 #' Calculation of a variety of metrics for determing impairment of Benthic Macroinvertebrate Communities.
 #' @param x data.frame with sampling events in rows and taxa in columns. No row or column names should be defined
-#' @param tax.fields The number of rows in x used for taxa names (will be concatenated in output)
-#' @param site.fields The number of columns in x used for site names (will be concatenated in output)
+#' @param taxa.sep Character that separates taxa names
 #' @param HBI Custom sensitivity values for HBI calculation. Must follow format of data(HBI1,envir = environment())
 #' @return $Summary.Metrics - Calculated indicator metrics
 #' @return $Raw.Data - Raw taxon data
@@ -15,7 +14,7 @@
 #' data(YKBioData,envir = environment())
 #' benth.met(YKBioData,2,2)
 
-benth.met<-function(x,tax.fields=2,site.fields,HBI=NULL) {
+benth.metUI<-function(x,taxa.sep=";",HBI=NULL) {
   if (is.null(HBI)) {
     data(HBI1,envir = environment())
     CEFI<-HBI[,c(3,6,7)]
@@ -26,34 +25,41 @@ benth.met<-function(x,tax.fields=2,site.fields,HBI=NULL) {
     HBI<-data.frame(HBI)
   }
   
-  x[,1:site.fields]<-apply(x[,1:site.fields],2,as.character)
-  
-  if (!any(colnames(x) %in% c("V1","X1"))) {
-    colnames(x)<-gsub(pattern=".", replace=";" ,colnames(x),fixed=T)
-    x<-rbind(as.character(colnames(x)),x)
+  if (taxa.sep!=";"){
+    colnames(x)<-gsub(taxa.sep,";",rownames(x))
   }
+  rownames(x)<-gsub(" ",".",rownames(x))
+
+  #x[,1:site.fields]<-apply(x[,1:site.fields],2,as.character)
+  
+  #if (!any(colnames(x) %in% c("V1","X1"))) {
+  #  colnames(x)<-gsub(pattern=".", replace=";" ,colnames(x),fixed=T)
+  #  x<-rbind(as.character(colnames(x)),x)
+  #}
   
 
-  if (site.fields>1){
-    site.names<-apply(as.matrix(x[(tax.fields+1):nrow(x),1:site.fields]),1,FUN=paste0,collapse="",sep="-")# get site names
-    site.names<-substr(site.names,start=1,stop=nchar(site.names)-1)
-    site.names<-gsub(" ","",site.names)
-  } else if (site.fields==1){
-    site.names<-x[(tax.fields+1):nrow(x),1]
-    site.names<-gsub(" ","",site.names)
-  }
+  #if (site.fields>1){
+  #  site.names<-apply(as.matrix(x[(tax.fields+1):nrow(x),1:site.fields]),1,FUN=paste0,collapse="",sep="-")# get site names
+  #  site.names<-substr(site.names,start=1,stop=nchar(site.names)-1)
+  #  site.names<-gsub(" ","",site.names)
+  #} else if (site.fields==1){
+  #  site.names<-x[(tax.fields+1):nrow(x),1]
+  #  site.names<-gsub(" ","",site.names)
+  #}
   
-  taxa.names<-apply(as.matrix(x[1:tax.fields,(site.fields+1):ncol(x)]),2,FUN=paste0,collapse="",sep=";")# get taxa names
-  taxa.names<-substr(taxa.names,start=1,stop=nchar(taxa.names)-1)
+  #taxa.names<-apply(as.matrix(x[1:tax.fields,(site.fields+1):ncol(x)]),2,FUN=paste0,collapse="",sep=";")# get taxa names
+  #taxa.names<-substr(taxa.names,start=1,stop=nchar(taxa.names)-1)
   
-  taxa<-data.frame(x[(tax.fields+1):nrow(x),(site.fields+1):ncol(x)])
-  if (nrow(x)-site.fields==1){
-    taxa<-t(x.frame(apply(taxa,2,as.numeric)))
-  } else {
-    taxa<-data.frame(apply(taxa,2,as.numeric))
-  }
-  colnames(taxa)<-taxa.names
-  rownames(taxa)<-site.names
+  taxa.names<-colnames(x)
+  
+  taxa<-x
+  #if (nrow(x)-site.fields==1){
+  #  taxa<-t(x.frame(apply(taxa,2,as.numeric)))
+  #} else {
+  #  taxa<-data.frame(apply(taxa,2,as.numeric))
+  #}
+  #colnames(taxa)<-taxa.names
+  #rownames(taxa)<-site.names
 
   taxa.pa<-vegan::decostand(taxa,method="pa")
   taxa.rel<-sweep(taxa,rowSums(taxa),MARGIN=1,FUN="/")
