@@ -51,6 +51,7 @@ benth.metUI<-function(x,taxa.sep=";",HBI=NULL) {
   #taxa.names<-substr(taxa.names,start=1,stop=nchar(taxa.names)-1)
   
   taxa.names<-colnames(x)
+  site.names<-rownmames(x)
   
   taxa<-x
   #if (nrow(x)-site.fields==1){
