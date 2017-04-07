@@ -14,21 +14,19 @@
 #' data(YKBioData,envir = environment())
 #' benth.met(YKBioData,2,2)
 
-benth.metUI<-function(x,taxa.sep=";",HBI=NULL) {
-  if (is.null(HBI)) {
-    data(HBI1,envir = environment())
-    CEFI<-HBI[,c(3,6,7)]
-    CEFI<-na.omit(CEFI)
-    HBI<-HBI[,c(3,5)]
-    HBI<-na.omit(HBI)
-  } else {
-    HBI<-data.frame(HBI)
+benth.metUI<-function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.trait=NULL) {
+  
+  #MAKE SURE TAXA NAMES KEEP TRAILING ";"
+  
+
+  if (any(grepl("1",colnames(x)))) {
+    stop("Duplicate taxa names are not permitted")
   }
   
   if (taxa.sep!=";"){
-    colnames(x)<-gsub(taxa.sep,";",rownames(x))
+    colnames(x)<-gsub(taxa.sep,";",colnames(x),fixed = T)
   }
-  rownames(x)<-gsub(" ",".",rownames(x))
+  rownames(x)<-gsub(" ","_",rownames(x),fixed = T)
 
   #x[,1:site.fields]<-apply(x[,1:site.fields],2,as.character)
   
@@ -50,7 +48,9 @@ benth.metUI<-function(x,taxa.sep=";",HBI=NULL) {
   #taxa.names<-apply(as.matrix(x[1:tax.fields,(site.fields+1):ncol(x)]),2,FUN=paste0,collapse="",sep=";")# get taxa names
   #taxa.names<-substr(taxa.names,start=1,stop=nchar(taxa.names)-1)
   
-  taxa.names<-colnames(x)
+  attributes<-benth.attributes(x=x,taxa.sep=taxa.sep,HBI=HBI,CEFI=CEFI,f.trait=f.trait,h.trait=h.trait)
+  
+  taxa.names<-toupper(colnames(x))
   site.names<-rownames(x)
   
   taxa<-x
@@ -64,7 +64,7 @@ benth.metUI<-function(x,taxa.sep=";",HBI=NULL) {
 
   taxa.pa<-vegan::decostand(taxa,method="pa")
   taxa.rel<-sweep(taxa,rowSums(taxa),MARGIN=1,FUN="/")
-  taxa.intol<-taxa[,taxa.names[grep(grep.paste(HBI[which(HBI[,2]<5),1]),taxa.names)]]
+  taxa.intol<-taxa[,which(attributes$HBI<5)]
   n.taxa<-ncol(taxa)
 
   #summ<-data.frame(matrix(nrow=nrow(taxa),ncol=39))
@@ -121,42 +121,31 @@ benth.metUI<-function(x,taxa.sep=";",HBI=NULL) {
   summ$'Intolerants.Richness'<-apply(taxa.intol, 1, function(x) length(which(x>0)))
   summ$'Percent.Intolerants'<-adapt.sum(taxa.intol)/abund
   
+  summ$'HBI'<-apply(taxa,1,function(x) sum((x*attributes$HBI)/sum(x,na.rm=T),na.rm=T))
   
-  taxa.hbi<-taxa[,taxa.names[grep(grep.paste(HBI[,1]),taxa.names)]]
-  t1<-lapply(colnames(taxa.hbi), function(x) substr(x, start=(gregexpr(pattern =';',x)[[1]][1]+1),stop=nchar(x))) #find matches between taxa.hbi and HBI in HBI
-  t3<-match(t1,HBI[,1])
-  if (any(is.na(t3))) {
-    t2<-lapply(taxa.names[grep(grep.paste(t1[which(is.na(t3))]),taxa.names)], function(x) substr(x, stop=(gregexpr(pattern =';',x)[[1]][1]-1),start=1))
-    t3[is.na(t3)]<-match(t2,HBI[,1])
-  }
-  summ$'HBI'<-apply(taxa.hbi,1,function(x) sum(x*HBI[t3, 2])/sum(x))
-  
-
   taxa.rel.cefi<-taxa.rel
   taxa.rel.cefi[taxa.rel.cefi<=0.05]<-0
-  taxa.rel.cefi<-taxa.rel.cefi[,taxa.names[grep(grep.paste(CEFI[,1]),taxa.names)]]
-  t1<-lapply(colnames(taxa.rel.cefi), function(x) substr(x, start=(gregexpr(pattern =';',x)[[1]][1]+1),stop=nchar(x))) #find matches between taxa.hbi and HBI in HBI
-  t3<-match(t1,CEFI[,1])
-  if (any(is.na(t3))) {
-    t2<-lapply(taxa.names[grep(grep.paste(t1[which(is.na(t3))]),taxa.names)], function(x) substr(x, stop=(gregexpr(pattern =';',x)[[1]][1]-1),start=1))
-    t3[is.na(t3)]<-match(t2,HBI[,1])
-  }
-  summ$'CEFI'<-apply(taxa.rel.cefi,1,function(x) sum(x*CEFI[t3, 2]*CEFI[t3, 3])/sum(x*CEFI[t3, 3]))
-  
-  summ$'Percent.Predator'<-number.ftrait(taxa,"PREDATOR")/abund
-  summ$'Percent.Scraper'<-(number.ftrait(taxa,"SCRAPER")+number.ftrait(taxa,"SCRAPER/GRAZER"))/abund
-  summ$'Percent.Shredder'<-number.ftrait(taxa,"SHREDDER")/abund
-  summ$'Percent.Filter'<-number.ftrait(taxa,"COLLECTOR-FILTERER")/abund
-  summ$'Percent.Gatherer'<-number.ftrait(taxa,"COLLECTOR-GATHERER")/abund
-  #summ[,33]<-(number.ftrait(taxa,"SCRAPER")+number.ftrait(taxa,"SCRAPER/GRAZER"))/(number.ftrait(taxa,"SHREDDER")+number.ftrait(taxa,"COLLECTOR"))
-  summ$'Scraper.to.Shredder.Collector'<-log(summ$'Percent.Scraper'/(summ$'Percent.Shredder'+summ$'Percent.Gatherer'))
-  
-  
-  summ$'Percent.Clinger'<-(number.htrait(taxa,"CLINGER"))/abund
-  summ$'Percent.Burrower'<-(number.htrait(taxa,"BURROWER"))/abund
-  summ$'Percent.Sprawler'<-(number.htrait(taxa,"SPRAWLER"))/abund
-  summ$'Burrower.to.Sprawler.Clinger'<-log(summ$'Percent.Burrower'/(summ$'Percent.Clinger'+summ$'Percent.Sprawler'))
-  
+  summ$'CEFI'<-apply(taxa.rel.cefi,1,function(x) sum((x*attributes$CEFI.V*attributes$CEFI.W)/sum(x*attributes$CEFI.W,na.rm=T),na.rm=T))
+  summ$'CEFI'[summ$'CEFI'==0]<-NA
+  summ$'Predator.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Feeding=="PREDATOR")]))/abund
+  summ$'Predator.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Feeding=="PREDATOR")]>0)))
+  summ$'ScraperGrazer.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Feeding=="SCRAPER/GRAZER")]))/abund
+  summ$'ScraperGrazer.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Feeding=="SCRAPER/GRAZER")]>0)))
+  summ$'Shredder.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Feeding=="SHREDDER")]))/abund
+  summ$'Shredder.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Feeding=="SHREDDER")]>0)))
+  summ$'Filterer.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Feeding=="COLLECTOR-FILTERER")]))/abund
+  summ$'Filterer.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Feeding=="COLLECTOR-FILTERER")]>0)))
+  summ$'Gatherer.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Feeding=="COLLECTOR-GATHERER")]))/abund
+  summ$'Gatherer.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Feeding=="COLLECTOR-GATHERER")]>0)))
+  summ$'ScraperGrazer.to.Shredder.Collector'<-log(summ$'ScraperGrazer.Percent'/(summ$'Shredder.Percent'+summ$'Gatherer.Percent'))
+  summ$'Clinger.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Habitat=="CLINGER")]))/abund
+  summ$'Clinger.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Habitat=="CLINGER")]>0)))
+  summ$'Burrower.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Habitat=="Burrower")]))/abund
+  summ$'Burrower.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Habitat=="Burrower")]>0)))
+  summ$'Sprawler.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Habitat=="Sprawler")]))/abund
+  summ$'Sprawler.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Habitat=="Sprawler")]>0)))
+  summ$'Burrower.to.Sprawler.Clinger'<-log(summ$'Burrower.Percent'/(summ$'Clinger.Percent'+summ$'Sprawler.Percent'))
+
   summ<-as.data.frame(summ)
   rownames(summ)<-rownames(taxa)
 

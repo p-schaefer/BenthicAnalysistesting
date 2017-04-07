@@ -140,3 +140,33 @@ panel.cor <- function(x, y, digits = 2, prefix = "", cex.cor, ...)
   if(missing(cex.cor)) cex.cor <- 0.8/strwidth(txt)
   text(0.5, 0.5, txt, cex = cex.cor * r)
 }
+
+#' @export
+richness.ftrait<- function (x, y) {
+  data(trait.feeding, envir = environment())
+  output <- NULL
+  for (i in 1:nrow(x)) {
+    trait <- trait.feeding[which(trait.feeding$TAXON %in% 
+                                   toupper(unlist(lapply(colnames(x)[which(x[i, ] > 0)], function(x) substr(x, start = (gregexpr(pattern = ";",x)[[1]][1] + 1), stop = nchar(x)))))), ]
+    #trait <- trait[trait$TRAITVAL == y, ]
+    
+    output[i]<-nrow(trait[trait$TRAITVAL == y, ])
+    
+  }
+  return(output)
+}
+
+#' @export
+richness.htrait<- function (x, y) {
+  data(trait.habit, envir = environment())
+  output <- NULL
+  for (i in 1:nrow(x)) {
+    trait <- trait.habit[which(trait.habit$TAXON %in% 
+                                   toupper(unlist(lapply(colnames(x)[which(x[i, ] > 0)], function(x) substr(x, start = (gregexpr(pattern = ";",x)[[1]][1] + 1), stop = nchar(x)))))), ]
+    #trait <- trait[trait$TRAITVAL == y, ]
+    
+    output[i]<-nrow(trait[trait$TRAITVAL == y, ])
+    
+  }
+  return(output)
+}
