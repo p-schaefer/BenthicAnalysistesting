@@ -140,10 +140,10 @@ benth.metUI<-function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.trait=NUL
   summ$'ScraperGrazer.to.Shredder.Collector'<-log(summ$'ScraperGrazer.Percent'/(summ$'Shredder.Percent'+summ$'Gatherer.Percent'))
   summ$'Clinger.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Habitat=="CLINGER")]))/abund
   summ$'Clinger.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Habitat=="CLINGER")]>0)))
-  summ$'Burrower.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Habitat=="Burrower")]))/abund
-  summ$'Burrower.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Habitat=="Burrower")]>0)))
-  summ$'Sprawler.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Habitat=="Sprawler")]))/abund
-  summ$'Sprawler.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Habitat=="Sprawler")]>0)))
+  summ$'Burrower.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Habitat=="BURROWER")]))/abund
+  summ$'Burrower.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Habitat=="BURROWER")]>0)))
+  summ$'Sprawler.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Habitat=="SPRAWLER")]))/abund
+  summ$'Sprawler.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Habitat=="SPRAWLER")]>0)))
   summ$'Burrower.to.Sprawler.Clinger'<-log(summ$'Burrower.Percent'/(summ$'Clinger.Percent'+summ$'Sprawler.Percent'))
 
   summ<-as.data.frame(summ)
