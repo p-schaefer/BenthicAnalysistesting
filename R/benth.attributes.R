@@ -122,7 +122,7 @@ benth.attributes<- function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.tra
         q.taxa<-paste0(taxa.heirarchy[i,c(n-1,n)],sep=";",collapse="")
         q.taxa<-substr(q.taxa,start=1,stop=(nchar(q.taxa)-1))
         feeding_index<-which(q.taxa==trait.feeding$TAXON)
-        if (length(HBI_index)>1) { #if still multiple matches, skip to next
+        if (length(feeding_index)>1) { #if still multiple matches, skip to next
           next
         }
       }
@@ -150,13 +150,12 @@ benth.attributes<- function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.tra
           habitat_index<-habitat_index_test
         }
       }
-      
-      
+
       if (length(habitat_index)>1 & n>1) { #account for multiple matches by including higher level taxon
         q.taxa<-paste0(taxa.heirarchy[i,c(n-1,n)],sep=";",collapse="")
         q.taxa<-substr(q.taxa,start=1,stop=(nchar(q.taxa)-1))
-        feeding_index<-which(q.taxa==trait.habit$TAXON)
-        if (length(HBI_index)>1) { #if still multiple matches, skip to next
+        habitat_index<-which(q.taxa==trait.habit$TAXON)
+        if (length(habitat_index)>1) { #if still multiple matches, skip to next
           next
         }
       }
