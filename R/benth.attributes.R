@@ -35,7 +35,7 @@ benth.attributes<- function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.tra
 
   taxa.names<-toupper(colnames(x))
   taxa.levels<-max(lengths(regmatches(colnames(x), gregexpr(";", colnames(x),fixed=T))))+1
-  taxa.heirarchy<-matrix(unlist(strsplit(taxa.names,";")), ncol=taxa.levels,byrow = T)
+  taxa.heirarchy<-matrix(scan(textConnection(taxa.names), sep=";", what=""),ncol=taxa.levels,byrow=T)
   taxa.heirarchy<-cbind(taxa.heirarchy,NA,NA,NA,NA,NA,NA)
   colnames(taxa.heirarchy)[(taxa.levels+1):(taxa.levels+6)]<-c("HBI","FBI","CEFI.V","CEFI.W","Feeding","Habitat")
   
