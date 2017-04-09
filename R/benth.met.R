@@ -158,6 +158,7 @@ benth.metUI<-function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.trait=NUL
   output$Raw.Data<-taxa
   output$Taxa.List<-as.character(taxa.names)
   output$Site.List<-as.character(site.names)
+  output$Attributes<-attributes
   class(output)<-"benth.metric"
   return(output)
 }
