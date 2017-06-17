@@ -1,3 +1,4 @@
+
 #' @export
 grep.paste<-function (data) {#paste0 the vector seperated by |
   substr(paste0(data,collapse="",sep="|"),1,(nchar(paste0(data,collapse="",sep="|"))-1))

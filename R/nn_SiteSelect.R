@@ -62,7 +62,8 @@ site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, d
     anna.ref.points<-t(apply(anna.ref.points,1,function(x,y=var.explained){x*y}))
     
     anna.test.points<-data.frame(predict(anna.ref,Test, type="wa",scale=scale))[,1:sig]
-    anna.test.points<-(anna.test.points - apply(anna.ref$CA$u,2,min)) / (apply(anna.ref$CA$u,2,max) - apply(anna.ref$CA$u,2,min))
+    anna.test.points<-data.frame(t(apply(anna.test.points,1,function(x,min.y=apply(anna.ref$CA$u[,1:sig],2,min),max.y=apply(anna.ref$CA$u[,1:sig],2,max)) (x-min.y)/(max.y-min.y))))
+    #anna.test.points<-(anna.test.points - apply(anna.ref$CA$u[,1:sig],2,min)) / (apply(anna.ref$CA$u[,1:sig],2,max) - apply(anna.ref$CA$u[,1:sig],2,min))
     anna.test.points<-t(apply(anna.test.points,1,function(x,y=var.explained){x*y}))
   }
   
@@ -100,11 +101,13 @@ site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, d
     anna.ref.points<-t(apply(anna.ref.points,1,function(x,y=var.explained){x*y}))
     
     anna.test.points<-data.frame(predict(anna.ref,Test,model="CCA", type="wa",scale=scale))[,1:sig]
-    anna.test.points<-(anna.test.points - apply(anna.ref$CCA$wa,2,min)) / (apply(anna.ref$CCA$wa,2,max) - apply(anna.ref$CCA$wa,2,min))
+    anna.test.points<-data.frame(t(apply(anna.test.points,1,function(x,min.y=apply(anna.ref$CCA$wa[,1:sig],2,min),max.y=apply(anna.ref$CCA$wa[,1:sig],2,max)) (x-min.y)/(max.y-min.y))))
     anna.test.points<-t(apply(anna.test.points,1,function(x,y=var.explained){x*y}))
   }
   
-
+  dist.all<-as.matrix(dist(rbind(anna.test.points,anna.ref.points)))
+  dist<-dist.all[1:nrow(anna.test.points),(nrow(anna.test.points)+1):ncol(dist.all)]
+  
   dist.tf<-dist
   dd.number<-data.frame(sites=rownames(Test))
   dd.number$dd.number<-NA
@@ -112,8 +115,8 @@ site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, d
     site<-dist[n,]
     site<-site[order(site)]
     if (distance.decay==T){
-      ref.TF<-c(T,T,T,diff(site[-c(1:3)])<=dd.constant/(1:(length(site)-4))^dd.factor)
-      names(ref.TF)[1:3]<-names(site)[1:3]
+      ref.TF<-c(T,T,T,T,diff(site[-c(1:3)])<=dd.constant/(1:(length(site)-4))^dd.factor)
+      names(ref.TF)[1:4]<-names(site)[1:4]
       ref.TF[which.min(ref.TF):length(ref.TF)]<-F
       if (!is.null(k)) {
         ref.TF[(K+1):length(ref.TF)]<-F
@@ -129,11 +132,11 @@ site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, d
     dd.number$dd.number[n]<-which.min(ref.TF)
   }
   
-  dist.tf<-as.logical(dist.tf)
-  ordination.scores<-rbind(anna.ref.points,anna.test.points)
-  dist<-as.matrix(dist(rbind(anna.test.points,anna.ref.points)))
-  dist<-dist[1:nrow(anna.test.points),(nrow(anna.test.points)+1):ncol(dist)]
-  
+  dist.tf<-data.frame(apply(dist.tf,2,as.logical))
+  rownames(dist.tf)<-rownames(Test)
+  colnames(dist.tf)<-rownames(Reference)
+  ordination.scores<-data.frame(rbind(anna.ref.points,anna.test.points))
+  ordination.scores$Class<-c(rep("Reference",nrow(Reference)),rep("Test",nrow(Test)))
 
   output<-NULL
   output$distance.matrix<-dist
