@@ -54,6 +54,9 @@ site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, d
   }
   
   if(!is.null(k)){
+    if (identical(k==0,logical(0))){
+      k<-NULL
+    }
     if (k==0){
       k<-NULL
     }
