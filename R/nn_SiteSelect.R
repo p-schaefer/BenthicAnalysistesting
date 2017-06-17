@@ -53,8 +53,10 @@ site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, d
     stop("Need either distance.decay == TRUE or k>0")
   }
   
-  if (k==0){
-    k<-NULL
+  if(!is.null(k)){
+    if (k==0){
+      k<-NULL
+    }
   }
   
   if (scale){
