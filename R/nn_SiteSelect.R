@@ -94,7 +94,9 @@ site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, d
     anna.ref.points<-t(apply(anna.ref.points,1,function(x,y=var.explained){x*y}))
     
     anna.test.points<-data.frame(predict(anna.ref,Test.rda, type="wa",scale=F))[,1:sig]
-    anna.test.points<-sapply(1:sig,function(i) scales::rescale(anna.test.points[,i],to=c(-1,1),from=range(anna.ref$CA$u[,i])))
+    anna.test.points<-data.frame(sapply(1:sig,function(i) scales::rescale(anna.test.points[,i],to=c(-1,1),from=range(anna.ref$CA$u[,i]))))
+    colnames(anna.test.points)<-colnames(anna.ref.points)
+    rownames(anna.test.points)<-rownames(Test.rda)
     #anna.test.points<-data.frame(t(apply(anna.test.points,1,function(x,min.y=apply(anna.ref$CA$u[,1:sig],2,min),max.y=apply(anna.ref$CA$u[,1:sig],2,max)) (x-min.y)/(max.y-min.y))))
     #anna.test.points<-apply(anna.test.points,2,scales::rescale,to=c(-1,1), from=range(anna.ref$CA$u))
     anna.test.points<-t(apply(anna.test.points,1,function(x,y=var.explained){x*y}))
@@ -134,7 +136,9 @@ site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, d
     anna.ref.points<-t(apply(anna.ref.points,1,function(x,y=var.explained){x*y}))
     
     anna.test.points<-data.frame(predict(anna.ref,Test.rda,model="CCA", type="wa",scale=scale))[,1:sig]
-    anna.test.points<-sapply(1:sig,function(i) scales::rescale(anna.test.points[,i],to=c(-1,1),from=range(anna.ref$CCA$wa[,i])))
+    anna.test.points<-data.frame(sapply(1:sig,function(i) scales::rescale(anna.test.points[,i],to=c(-1,1),from=range(anna.ref$CCA$wa[,i]))))
+    colnames(anna.test.points)<-colnames(anna.ref.points)
+    rownames(anna.test.points)<-rownames(Test.rda)
     #anna.test.points<-data.frame(t(apply(anna.test.points,1,function(x,min.y=apply(anna.ref$CCA$wa[,1:sig],2,min),max.y=apply(anna.ref$CCA$wa[,1:sig],2,max)) (x-min.y)/(max.y-min.y))))
     #anna.test.points<-apply(anna.test.points,2,scales::rescale,to=c(-1,1))
     anna.test.points<-t(apply(anna.test.points,1,function(x,y=var.explained){x*y}))
