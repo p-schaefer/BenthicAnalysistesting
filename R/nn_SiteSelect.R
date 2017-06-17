@@ -53,21 +53,30 @@ site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, d
     stop("Need either distance.decay == TRUE or k>0")
   }
   
-  if (is.na(k)|k==0){
+  if (k==0){
     k<-NULL
   }
   
   if (scale){
     Reference.rda<-Reference
-    Reference.rda[,!sapply(Reference,is.factor)]<-data.frame(scale(Reference[,!sapply(Reference,is.factor)]))
+    Reference.rda[,!sapply(Reference.rda,is.factor)]<-data.frame(scale(Reference.rda[,!sapply(Reference.rda,is.factor)]))
+    scales<-scale(Reference[,!sapply(Reference,is.factor)])
+      
+    Test.rda<-Test
+    Test.rda[,!sapply(Test.rda,is.factor)]<-data.frame(t(apply(Test.rda[,!sapply(Test.rda,is.factor)],1,function(x,center=attr(scales,"scaled:center"),scale=attr(scales,"scaled:scale")) (x-center)/scale )))
   } else {
     Reference.rda<-Reference
+    Test.rda<-Test
   }
   
   if (any(sapply(Reference.rda,is.factor))){
-    fact.matrix<-data.frame(model.matrix(~.,data.frame(Reference.rda[,sapply(Reference.rda,is.factor)])))[,-c(1)]
-    Reference.rda<-Reference.rda[,!sapply(Reference,is.factor)]
-    Reference.rda<-cbind(Reference.rda,fact.matrix)
+    factors<-rbind(Reference.rda,Test.rda)
+    fact.matrix<-data.frame(model.matrix(~.,data.frame(factors[,sapply(factors,is.factor)])))[,-c(1)]
+    Reference.rda<-Reference.rda[,!sapply(Reference.rda,is.factor)]
+    Test.rda<-Test.rda[,!sapply(Test.rda,is.factor)]
+    
+    Reference.rda<-cbind(Reference.rda,fact.matrix[1:nrow(Reference.rda),])
+    Test.rda<-cbind(Test.rda,fact.matrix[(nrow(Reference.rda)+1):nrow(fact.matrix),])
   }
 
   if (is.null(RDA.reference)){
@@ -78,10 +87,14 @@ site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, d
     anna.ref.points<-data.frame(vegan::decostand(anna.ref.points,method="range"))
     anna.ref.points<-t(apply(anna.ref.points,1,function(x,y=var.explained){x*y}))
     
-    anna.test.points<-data.frame(predict(anna.ref,Test, type="wa",scale=scale))[,1:sig]
+    anna.test.points<-data.frame(predict(anna.ref,Test.rda, type="wa",scale=F))[,1:sig]
     anna.test.points<-data.frame(t(apply(anna.test.points,1,function(x,min.y=apply(anna.ref$CA$u[,1:sig],2,min),max.y=apply(anna.ref$CA$u[,1:sig],2,max)) (x-min.y)/(max.y-min.y))))
     #anna.test.points<-(anna.test.points - apply(anna.ref$CA$u[,1:sig],2,min)) / (apply(anna.ref$CA$u[,1:sig],2,max) - apply(anna.ref$CA$u[,1:sig],2,min))
     anna.test.points<-t(apply(anna.test.points,1,function(x,y=var.explained){x*y}))
+    
+    env.scores<-anna.ref$CA$v[,1:sig]
+    env.scores<-data.frame(vegan::decostand(env.scores,method="range"))
+    env.scores<-t(apply(env.scores,1,function(x,y=var.explained){x*y}))
   }
   
   if (!is.null(RDA.reference)){
@@ -91,10 +104,10 @@ site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, d
     if (ncol(RDA.reference)>(ncol(Reference)-1)){
       stop("Too many metrics for number of environmental variables")
     }
-    if (ncol(RDA.reference)>(nrow(Reference-1))){
+    if (ncol(RDA.reference)>(nrow(Reference)-1)){
       stop("Too many metrics selected for number of Reference Sites")
     }
-    if (ncol(RDA.reference)>((1/2)*nrow(Reference-1))){
+    if (ncol(RDA.reference)>((1/2)*nrow(Reference)-1)){
       warning("Number of indicator metrics greater than 0.5* number of reference sites")
     }
     RDA.reference<-scale(RDA.reference,T,T)
@@ -112,9 +125,18 @@ site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, d
     anna.ref.points<-data.frame(vegan::decostand(anna.ref.points,method="range"))
     anna.ref.points<-t(apply(anna.ref.points,1,function(x,y=var.explained){x*y}))
     
-    anna.test.points<-data.frame(predict(anna.ref,Test,model="CCA", type="wa",scale=scale))[,1:sig]
+    anna.test.points<-data.frame(predict(anna.ref,Test.rda,model="CCA", type="wa",scale=scale))[,1:sig]
     anna.test.points<-data.frame(t(apply(anna.test.points,1,function(x,min.y=apply(anna.ref$CCA$wa[,1:sig],2,min),max.y=apply(anna.ref$CCA$wa[,1:sig],2,max)) (x-min.y)/(max.y-min.y))))
     anna.test.points<-t(apply(anna.test.points,1,function(x,y=var.explained){x*y}))
+    
+    env.scores<-anna.ref$CCA$v[,1:sig]
+    env.scores<-data.frame(vegan::decostand(env.scores,method="range"))
+    env.scores<-t(apply(env.scores,1,function(x,y=var.explained){x*y}))
+    
+    met.scores<-anna.ref$CCA$biplot[,1:sig]
+    met.scores<-data.frame(vegan::decostand(met.scores,method="range"))
+    met.scores<-t(apply(met.scores,1,function(x,y=var.explained){x*y}))
+    
   }
   
   dist.all<-as.matrix(dist(rbind(anna.test.points,anna.ref.points)))
@@ -163,6 +185,11 @@ site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, d
   output$ordination<-anna.ref
   output$env.data<-rbind(Reference,Test)
   output$ordination.scores<-ordination.scores
+  output$env.ordination.scores<-env.scores
+  if (!is.null(RDA.reference)){
+    output$met.ordination.scores<-met.scores
+  }
+  
   class(output)<-"match.object"
   return(output)
 }
