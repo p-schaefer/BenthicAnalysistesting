@@ -59,14 +59,14 @@ site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, d
   
   if (scale){
     Reference.rda<-Reference
-    Reference.rda[,!sappy(Reference,is.factor)]<-data.frame(scale(Reference[,!sappy(Reference,is.factor)]))
+    Reference.rda[,!sapply(Reference,is.factor)]<-data.frame(scale(Reference[,!sapply(Reference,is.factor)]))
   } else {
     Reference.rda<-Reference
   }
   
-  if (any(sappy(Reference.rda,is.factor))){
-    fact.matrix<-data.frame(model.matrix(~.,data.frame(Reference.rda[,sappy(Reference.rda,is.factor)])))[,-c(1)]
-    Reference.rda<-Reference.rda[,!sappy(Reference,is.factor)]
+  if (any(sapply(Reference.rda,is.factor))){
+    fact.matrix<-data.frame(model.matrix(~.,data.frame(Reference.rda[,sapply(Reference.rda,is.factor)])))[,-c(1)]
+    Reference.rda<-Reference.rda[,!sapply(Reference,is.factor)]
     Reference.rda<-cbind(Reference.rda,fact.matrix)
   }
 
