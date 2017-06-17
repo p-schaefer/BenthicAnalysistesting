@@ -121,7 +121,7 @@ site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, d
     
     anna.ref<-vegan::rda(Reference.rda~RDA.reference,scale=F)
     
-    sig<-vegan::anova.cca(anna.ref,by="axis",permutations=999)
+    sig<-anova(anna.ref,by="axis",permutations=999)
     sig<-length(which(sig$`Pr(>F)`<=0.05))
     
     var.explained<-as.numeric(anna.ref$CCA$eig/sum(anna.ref$CCA$eig))[1:sig]
