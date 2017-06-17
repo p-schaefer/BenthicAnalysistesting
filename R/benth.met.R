@@ -28,40 +28,12 @@ benth.metUI<-function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.trait=NUL
   }
   rownames(x)<-gsub(" ","_",rownames(x),fixed = T)
 
-  #x[,1:site.fields]<-apply(x[,1:site.fields],2,as.character)
-  
-  #if (!any(colnames(x) %in% c("V1","X1"))) {
-  #  colnames(x)<-gsub(pattern=".", replace=";" ,colnames(x),fixed=T)
-  #  x<-rbind(as.character(colnames(x)),x)
-  #}
-  
-
-  #if (site.fields>1){
-  #  site.names<-apply(as.matrix(x[(tax.fields+1):nrow(x),1:site.fields]),1,FUN=paste0,collapse="",sep="-")# get site names
-  #  site.names<-substr(site.names,start=1,stop=nchar(site.names)-1)
-  #  site.names<-gsub(" ","",site.names)
-  #} else if (site.fields==1){
-  #  site.names<-x[(tax.fields+1):nrow(x),1]
-  #  site.names<-gsub(" ","",site.names)
-  #}
-  
-  #taxa.names<-apply(as.matrix(x[1:tax.fields,(site.fields+1):ncol(x)]),2,FUN=paste0,collapse="",sep=";")# get taxa names
-  #taxa.names<-substr(taxa.names,start=1,stop=nchar(taxa.names)-1)
-  
   attributes<-benth.attributes(x=x,taxa.sep=taxa.sep,HBI=HBI,CEFI=CEFI,f.trait=f.trait,h.trait=h.trait)
   
   taxa.names<-toupper(colnames(x))
   site.names<-rownames(x)
   
   taxa<-x
-  #if (nrow(x)-site.fields==1){
-  #  taxa<-t(x.frame(apply(taxa,2,as.numeric)))
-  #} else {
-  #  taxa<-data.frame(apply(taxa,2,as.numeric))
-  #}
-  #colnames(taxa)<-taxa.names
-  #rownames(taxa)<-site.names
-
   taxa.pa<-vegan::decostand(taxa,method="pa")
   taxa.rel<-sweep(taxa,rowSums(taxa),MARGIN=1,FUN="/")
   taxa.intol<-taxa[,which(attributes$HBI<5)]
@@ -69,21 +41,6 @@ benth.metUI<-function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.trait=NUL
 
   #summ<-data.frame(matrix(nrow=nrow(taxa),ncol=39))
   summ<-NULL
-  #colnames(summ)<-c("Richness","Simpson","Shannon",
-  #                  "Percent Dominance","Percent Oligochaeta",
-  #                  "Percent Chironomidae","Percent Isopoda","Percent Amphipoda",
-
-  #                  "Percent Coleoptera", "Coleo as Elmidae", "Trich as Hydropsychidae","Ephem as Baetidae",
-  #                 "Intolerants Richness","Percent Intolerants",
-#
-  #                  "Percent EPT","EPT Richness",
-  #                  "Ephem Richness","Percent Ephem",
-  #                  "Plec Richness","Percent Plec",
-  #                  "Trich Richness","Percent Trich",
-  #                  "EPT per EPT and Chir","Percent Non Chir Dip","Percent CIGH","HBI","CEFI",
-  #                  "Percent Predator", "Percent Scraper", "Percent Shredder", "Percent Filter","Percent Gatherer","Scraper:Shredder+Collector",
-  #                  "Percent Clinger","Percent Burrower","Percent Sprawler","Burrower:Sprawler+Clinger")
-  
   abund<-rowSums(taxa)
 
   summ$Richness<-richness.calc(taxa)
