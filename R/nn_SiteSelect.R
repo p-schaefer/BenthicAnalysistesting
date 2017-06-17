@@ -56,9 +56,22 @@ site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, d
   if (is.na(k)|k==0){
     k<-NULL
   }
+  
+  if (scale){
+    Reference.rda<-Reference
+    Reference.rda[,!sappy(Reference,is.factor)]<-data.frame(scale(Reference[,!sappy(Reference,is.factor)]))
+  } else {
+    Reference.rda<-Reference
+  }
+  
+  if (any(sappy(Reference.rda,is.factor))){
+    fact.matrix<-data.frame(model.matrix(~.,data.frame(Reference.rda[,sappy(Reference.rda,is.factor)])))[,-c(1)]
+    Reference.rda<-Reference.rda[,!sappy(Reference,is.factor)]
+    Reference.rda<-cbind(Reference.rda,fact.matrix)
+  }
 
   if (is.null(RDA.reference)){
-    anna.ref<-vegan::rda(Reference,scale = scale)
+    anna.ref<-vegan::rda(Reference.rda,scale = F)
     sig<-length(which(anna.ref$CA$eig>vegan::bstick(anna.ref)))
     var.explained<-as.numeric(anna.ref$CA$eig/sum(anna.ref$CA$eig))[1:sig]
     anna.ref.points<-data.frame(anna.ref$CA$u)[,1:sig]
@@ -88,11 +101,6 @@ site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, d
     RDA.reference[is.na(RDA.reference)]<-0
     RDA.reference<-RDA.reference[,colSums(RDA.reference[1:nrow(Reference),])!=0]
     
-    if (scale){
-      Reference.rda<-scale(Reference)
-    } else {
-      Reference.rda<-Reference
-    }
     anna.ref<-vegan::rda(Reference.rda~RDA.reference,scale=F)
     
     sig<-vegan::anova.cca(anna.ref,by="axis",permutations=999)
