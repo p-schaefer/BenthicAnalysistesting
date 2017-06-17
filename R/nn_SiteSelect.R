@@ -53,6 +53,10 @@ site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, d
     stop("Need either distance.decay == TRUE or k>0")
   }
   
+  if (k==0){
+    k<-NULL
+  }
+  
   if (scale){
     Reference.rda<-Reference
     Reference.rda[,!sapply(Reference.rda,is.factor)]<-data.frame(scale(Reference.rda[,!sapply(Reference.rda,is.factor)]))
