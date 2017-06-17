@@ -88,17 +88,18 @@ site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, d
     anna.ref<-vegan::rda(Reference.rda,scale = F)
     sig<-length(which(anna.ref$CA$eig>vegan::bstick(anna.ref)))
     var.explained<-as.numeric(anna.ref$CA$eig/sum(anna.ref$CA$eig))[1:sig]
+    
     anna.ref.points<-data.frame(anna.ref$CA$u)[,1:sig]
-    anna.ref.points<-data.frame(vegan::decostand(anna.ref.points,method="range"))
+    anna.ref.points<-apply(anna.ref.points,2,scales::rescale,to=c(-1,1))
     anna.ref.points<-t(apply(anna.ref.points,1,function(x,y=var.explained){x*y}))
     
     anna.test.points<-data.frame(predict(anna.ref,Test.rda, type="wa",scale=F))[,1:sig]
     anna.test.points<-data.frame(t(apply(anna.test.points,1,function(x,min.y=apply(anna.ref$CA$u[,1:sig],2,min),max.y=apply(anna.ref$CA$u[,1:sig],2,max)) (x-min.y)/(max.y-min.y))))
-    #anna.test.points<-(anna.test.points - apply(anna.ref$CA$u[,1:sig],2,min)) / (apply(anna.ref$CA$u[,1:sig],2,max) - apply(anna.ref$CA$u[,1:sig],2,min))
+    anna.test.points<-apply(anna.test.points,2,scales::rescale,to=c(-1,1))
     anna.test.points<-t(apply(anna.test.points,1,function(x,y=var.explained){x*y}))
     
     env.scores<-anna.ref$CA$v[,1:sig]
-    env.scores<-data.frame(vegan::decostand(env.scores,method="range"))
+    env.scores<-apply(env.scores,2,scales::rescale,to=c(-1,1))
     env.scores<-t(apply(env.scores,1,function(x,y=var.explained){x*y}))
   }
   
@@ -128,19 +129,20 @@ site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, d
     var.explained<-as.numeric(anna.ref$CCA$eig/sum(anna.ref$CCA$eig))[1:sig]
     
     anna.ref.points<-data.frame(anna.ref$CCA$wa)[,1:sig]
-    anna.ref.points<-data.frame(vegan::decostand(anna.ref.points,method="range"))
+    anna.ref.points<-apply(anna.ref.points,2,scales::rescale,to=c(-1,1))
     anna.ref.points<-t(apply(anna.ref.points,1,function(x,y=var.explained){x*y}))
     
     anna.test.points<-data.frame(predict(anna.ref,Test.rda,model="CCA", type="wa",scale=scale))[,1:sig]
     anna.test.points<-data.frame(t(apply(anna.test.points,1,function(x,min.y=apply(anna.ref$CCA$wa[,1:sig],2,min),max.y=apply(anna.ref$CCA$wa[,1:sig],2,max)) (x-min.y)/(max.y-min.y))))
+    anna.test.points<-apply(anna.test.points,2,scales::rescale,to=c(-1,1))
     anna.test.points<-t(apply(anna.test.points,1,function(x,y=var.explained){x*y}))
     
     env.scores<-anna.ref$CCA$v[,1:sig]
-    env.scores<-data.frame(vegan::decostand(env.scores,method="range"))
+    env.scores<-apply(env.scores,2,scales::rescale,to=c(-1,1))
     env.scores<-t(apply(env.scores,1,function(x,y=var.explained){x*y}))
     
     met.scores<-anna.ref$CCA$biplot[,1:sig]
-    met.scores<-data.frame(vegan::decostand(met.scores,method="range"))
+    met.scores<-apply(met.scores,2,scales::rescale,to=c(-1,1))
     met.scores<-t(apply(met.scores,1,function(x,y=var.explained){x*y}))
     
   }
@@ -191,7 +193,7 @@ site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, d
   output$ordination<-anna.ref
   output$env.data<-rbind(Reference,Test)
   output$ordination.scores<-ordination.scores
-  output$env.ordination.scores<-env.scores
+  output$env.ordination.scores<-data.frame(env.scores)
   if (!is.null(RDA.reference)){
     output$met.ordination.scores<-met.scores
   }
