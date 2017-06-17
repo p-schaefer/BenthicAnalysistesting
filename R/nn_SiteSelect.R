@@ -119,7 +119,7 @@ site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, d
       names(ref.TF)[1:4]<-names(site)[1:4]
       ref.TF[which.min(ref.TF):length(ref.TF)]<-F
       if (!is.null(k)) {
-        ref.TF[(K+1):length(ref.TF)]<-F
+        ref.TF[(k+1):length(ref.TF)]<-F
       }
     } else {
       ref.TF<-site
