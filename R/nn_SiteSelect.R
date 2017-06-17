@@ -49,7 +49,7 @@
 #' sitematch.plot(nn.sites)
 
 site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, dd.constant=1, RDA.reference=NULL, scale=T) {
-  if (distance.decay==F & (is.null(k) | k==0)){
+  if (distance.decay==F & is.null(k)){
     stop("Need either distance.decay == TRUE or k>0")
   }
 
