@@ -52,6 +52,10 @@ site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, d
   if (distance.decay==F & is.null(k)){
     stop("Need either distance.decay == TRUE or k>0")
   }
+  
+  if (is.na(k)|k==0){
+    k<-NULL
+  }
 
   if (is.null(RDA.reference)){
     anna.ref<-vegan::rda(Reference,scale = scale)
