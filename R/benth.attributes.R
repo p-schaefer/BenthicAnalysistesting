@@ -68,6 +68,19 @@ benth.attributes<- function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.tra
           next
         }
       }
+      
+      if (length(HBI_index)>1){
+        if (all(HBI_RAW$FBI[HBI_index]==HBI_RAW$FBI[HBI_index][1])) {
+          taxa.heirarchy[i,"FBI"]<-HBI_RAW$FBI[HBI_index][1]
+          if (all(HBI_RAW$HBI[HBI_index]==HBI_RAW$HBI[HBI_index][1])) {
+            taxa.heirarchy[i,"HBI"]<-HBI_RAW$HBI[HBI_index][1]
+          }
+          next
+        } else {
+          next
+        }
+      }
+
       if (!identical(HBI_index,integer(0))){
         taxa.heirarchy[i,"HBI"]<-as.numeric(HBI_RAW$HBI[HBI_index])
         taxa.heirarchy[i,"FBI"]<-as.numeric(HBI_RAW$FBI[HBI_index])
