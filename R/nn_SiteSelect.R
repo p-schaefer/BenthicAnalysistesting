@@ -85,7 +85,7 @@ site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, d
   }
 
   if (is.null(RDA.reference)){
-    anna.ref<-vegan::rda(Reference.rda,scale = F)
+    anna.ref<-vegan::rda(Reference.rda,scale = F, na.action=na.omit)
     sig<-length(which(anna.ref$CA$eig>vegan::bstick(anna.ref)))
     var.explained<-as.numeric(anna.ref$CA$eig/sum(anna.ref$CA$eig))[1:sig]
     
@@ -123,7 +123,7 @@ site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, d
     RDA.reference[is.na(RDA.reference)]<-0
     RDA.reference<-RDA.reference[,colSums(RDA.reference[1:nrow(Reference),])!=0]
     
-    anna.ref<-vegan::rda(Reference.rda~RDA.reference,scale=F)
+    anna.ref<-vegan::rda(Reference.rda~RDA.reference,scale=F, na.action=na.omit)
     
     #sig<-anova(anna.ref,by="axis",permutations=999)
     #sig<-length(which(sig$`Pr(>F)`<=0.05))
