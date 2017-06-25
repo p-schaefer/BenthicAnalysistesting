@@ -106,7 +106,7 @@ tsa.test.UI<- function(Test, Reference, distance=NULL, outlier.rem=F, m.select=F
   }
   
   if (m.select==T){
-    metric.select.object<-metric.select(Test=data.raw[nrow(data.raw),],Reference=data.raw[1:nRef,],outlier.rem=outlier.rem,rank=rank,outbound=outbound)
+    metric.select.object<-metric.select.UI(Test=data.raw[nrow(data.raw),],Reference=data.raw[1:nRef,],outlier.rem=outlier.rem,rank=rank,outbound=outbound)
     data<-metric.select.object$raw.data
   }
   
