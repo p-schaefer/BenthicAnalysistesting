@@ -149,8 +149,8 @@ tsa.test.UI<- function(Test, Reference, distance=NULL, outlier.rem=F, m.select=F
     tsa.ref.cent<-colMeans(data[1:nRef,])
     tsa.cov<-cov(data[1:nRef,])
   } else {
-    tsa.ref.cent<-cov.wt(data[1:nRef,],wt=as.numeric(1/distance[rownames(data[1:nRef,])]),center=T)$center
-    tsa.cov<-cov.wt(data[1:nRef,],wt=as.numeric(1/distance[rownames(data[1:nRef,])]),center=T)$cov
+    tsa.ref.cent<-cov.wt(data[1:nRef,],wt=as.numeric(max(distance[rownames(data[1:nRef,])])-distance[rownames(data[1:nRef,])]),center=T)$center
+    tsa.cov<-cov.wt(data[1:nRef,],wt=as.numeric(max(distance[rownames(data[1:nRef,])])-distance[rownames(data[1:nRef,])]),center=T)$cov
   }
   
   tsa.dist<-mahalanobis(data,tsa.ref.cent,(tsa.cov),inverted=F)
