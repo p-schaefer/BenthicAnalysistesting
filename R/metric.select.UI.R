@@ -82,8 +82,8 @@ metric.select.UI <- function (Test,Reference,outlier.rem=T,rank=F, outbound=0.1)
     test.var<-names(diff[1])
     cors<-abs(cor(reduced.data[1:nRef,],method="p")[,test.var])+0.001
     
-    if (any(cors<0.75)) {
-      cors<-cors[which(cors<0.75)]
+    if (any(cors<0.8)) {
+      cors<-cors[which(cors<0.8)]
       cors<-cors[(names(diff))]
       cors<-cors[which(!is.na(cors))]
       
@@ -92,8 +92,8 @@ metric.select.UI <- function (Test,Reference,outlier.rem=T,rank=F, outbound=0.1)
       
       for (var in 1:(min((length(indicative.metrics)-2),ceiling(1/5*nrow(data))-2))) {
         cors<-apply((abs(cor(reduced.data[1:nRef,],method="p")[,test.var])+0.001),1,max)
-        if (any(cors<0.75)) {
-          cors<-cors[which(cors<0.75)]
+        if (any(cors<0.8)) {
+          cors<-cors[which(cors<0.8)]
           cors<-cors[(names(diff))]
           cors<-cors[which(!is.na(cors))]
           test.var[var+2]<-names(sort((diff[names(cors)]/cors),decreasing=T)[1])
