@@ -36,10 +36,10 @@ add.met<-function (Test,Reference,original=F,tax.fields=2) {
   
   nRef<-nrow(Reference)
   
-  pRef<-colSums(decostand(raw.data[rownames(Reference),],"pa"))/nrow(Reference)
+  pRef<-colSums(vegan::decostand(raw.data[rownames(Reference),],"pa"))/nrow(Reference)
   e<-adapt.sum1(pRef[names(which(pRef>=0.5))])
-  e.var<-apply(decostand(raw.data[rownames(Reference),names(which(pRef>=0.5))],"pa"),1,function(x) adapt.sum1(x)/e)
-  o<-adapt.sum1(decostand(raw.data[rownames(Test),names(which(pRef>=0.5))],"pa"))/e
+  e.var<-apply(vegan::decostand(raw.data[rownames(Reference),names(which(pRef>=0.5))],"pa"),1,function(x) adapt.sum1(x)/e)
+  o<-adapt.sum1(vegan::decostand(raw.data[rownames(Test),names(which(pRef>=0.5))],"pa"))/e
   e.o<-c(e.var,o)
   e.o.stand<-(e.o-mean(e.o[1:nRef]))/sd(e.o[1:nRef])
   

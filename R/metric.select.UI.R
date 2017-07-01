@@ -57,6 +57,8 @@ metric.select.UI <- function (Test,Reference,outlier.rem=T,rank=F, outbound=0.1)
   
   #This loops through each metric and removes metrics that have fewer than 25% unique variables
   restricted.metrics<-NULL
+  
+  
   for (i in 1:nInd) {
     if ((length(unique(raw.data[1:nRef,i]))>1) & !(max(table(raw.data[1:nRef,i]))>((1/3)*(nRef))) & (IQR(raw.data[1:nRef,i])>0)){ #& !has_warning(!has_error(invisible(covMcd(data[,i]))))){ #ceiling(nrow(tsa3)*0.1)
       restricted.metrics[i]<-paste0(colnames(raw.data)[i])
@@ -104,44 +106,44 @@ metric.select.UI <- function (Test,Reference,outlier.rem=T,rank=F, outbound=0.1)
     }
   }
   
-  if ((!is.null(test.var)) & (length(test.var)<max(4,ceiling(1/5*nrow(data))))){
-    if (("O:E" %in% colnames(raw.data)) & !("O:E" %in% test.var)) {
-      test.var<-c(test.var,"O:E")
-    }
-    if (("Percent.Dominance" %in% colnames(raw.data)) & !("Percent.Dominance" %in% test.var)) {
-      test.var<-c(test.var,"Percent.Dominance")
-    }
-    if (("Richness" %in% colnames(raw.data)) & !("Richness" %in% test.var)) {
-      test.var<-c(test.var,"Richness")
-    }
-    if (("Percent.mEPT" %in% colnames(raw.data)) & !("Percent.mEPT" %in% test.var)) {
-      test.var<-c(test.var,"Percent.mEPT")
-    }
-    if (("Percent.Chironomidae" %in% colnames(raw.data)) & !("Percent.Chironomidae" %in% test.var)) {
-      test.var<-c(test.var,"Percent.Chironomidae")
-    }
-  }
+  #if ((!is.null(test.var)) & (length(test.var)<max(4,ceiling(1/5*nrow(data))))){
+  #  if (("O:E" %in% colnames(raw.data)) & !("O:E" %in% test.var)) {
+  #    test.var<-c(test.var,"O:E")
+  #  }
+  #  if (("Percent.Dominance" %in% colnames(raw.data)) & !("Percent.Dominance" %in% test.var)) {
+  #    test.var<-c(test.var,"Percent.Dominance")
+  #  }
+  #  if (("Richness" %in% colnames(raw.data)) & !("Richness" %in% test.var)) {
+  #    test.var<-c(test.var,"Richness")
+  #  }
+  #  if (("Percent.mEPT" %in% colnames(raw.data)) & !("Percent.mEPT" %in% test.var)) {
+  #    test.var<-c(test.var,"Percent.mEPT")
+  #  }
+  #  if (("Percent.Chironomidae" %in% colnames(raw.data)) & !("Percent.Chironomidae" %in% test.var)) {
+  #    test.var<-c(test.var,"Percent.Chironomidae")
+  #  }
+  #}
   
-  if (is.null(test.var)){
-    if (length(indicative.metrics)==1) {
-      test.var<-indicative.metrics
-    } else {test.var<-NULL}
-    if (("O:E" %in% colnames(data)) & !("O:E" %in% test.var)) {
-      test.var<-c(test.var,"O:E")
-    }
-    if (("Percent.Dominance" %in% colnames(data)) & !("Percent.Dominance" %in% test.var)) {
-      test.var<-c(test.var,"Percent.Dominance")
-    }
-    if (("Richness" %in% colnames(data)) & !("Richness" %in% test.var)) {
-      test.var<-c(test.var,"Richness")
-    }
-    if (("Percent.mEPT" %in% colnames(data)) & !("Percent.mEPT" %in% test.var)) {
-      test.var<-c(test.var,"Percent.mEPT")
-    }
-    if (("Percent.Chironomidae" %in% colnames(data)) & !("Percent.Chironomidae" %in% test.var)) {
-      test.var<-c(test.var,"Percent.Chironomidae")
-    }
-  }
+  #if (is.null(test.var)){
+  #  if (length(indicative.metrics)==1) {
+  #    test.var<-indicative.metrics
+  #  } else {test.var<-NULL}
+  #  if (("O:E" %in% colnames(data)) & !("O:E" %in% test.var)) {
+  #    test.var<-c(test.var,"O:E")
+  #  }
+  #  if (("Percent.Dominance" %in% colnames(data)) & !("Percent.Dominance" %in% test.var)) {
+  #    test.var<-c(test.var,"Percent.Dominance")
+  #  }
+  #  if (("Richness" %in% colnames(data)) & !("Richness" %in% test.var)) {
+  #    test.var<-c(test.var,"Richness")
+  #  }
+  #  if (("Percent.mEPT" %in% colnames(data)) & !("Percent.mEPT" %in% test.var)) {
+  #    test.var<-c(test.var,"Percent.mEPT")
+  #  }
+  #  if (("Percent.Chironomidae" %in% colnames(data)) & !("Percent.Chironomidae" %in% test.var)) {
+  #    test.var<-c(test.var,"Percent.Chironomidae")
+  #  }
+  #}
   
   test.var<-test.var[1:max(3,ceiling((1/5)*nRef))]
   test.var<-test.var[!is.na(test.var)]
