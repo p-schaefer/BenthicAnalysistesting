@@ -118,7 +118,7 @@ tsa.test.UI<- function(Test, Reference, distance=NULL, outlier.rem=F, m.select=F
     if (!any(apply(Reference, 2, mad)!=0 & !is.na(apply(Reference, 2, mad)!=0))){
       stop("More than 50% equal values in one or more variables or too many NAs")
     }
-    Reference1<-Reference[c(which(pcout(Reference,outbound=outbound)$wfinal01==1)),]
+    Reference1<-Reference[c(which(pcout.ba(Reference,outbound=outbound)$wfinal01==1)),]
     data<-rbind(Reference1,Test)
     #if (has_warning(covMcd(data[1:nRef,])) & any(findCorrelation(cor(data[1:nRef,]),cutoff=0.8))) {
     #  data<-data[,-c(findCorrelation(cor(data[1:nRef,]),cutoff=0.8))]

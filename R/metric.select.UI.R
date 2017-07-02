@@ -47,7 +47,7 @@ metric.select.UI <- function (Test,Reference,outlier.rem=T,rank=F, outbound=0.1)
   
   if (outlier.rem==T) {
     Reference<-Reference[,which(apply(Reference, 2, mad)!=0 & !is.na(apply(Reference, 2, mad)!=0))]
-    Reference<-Reference[c(which(pcout(Reference,outbound=outbound)$wfinal01==1)),]
+    Reference<-Reference[c(which(pcout.ba(Reference,outbound=outbound)$wfinal01==1)),]
     raw.data<-tsa.zscore(Test[,colnames(Test)%in%colnames(Reference)],Reference[,colnames(Reference)%in%colnames(Test)])
   }
   
