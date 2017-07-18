@@ -32,4 +32,3 @@ benth.met(YKBioData,2,2)
 }
 \keyword{Benthic}
 \keyword{Metrics}
-

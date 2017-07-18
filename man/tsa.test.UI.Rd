@@ -82,4 +82,3 @@ pcoa.tsa(tsa.results)
 \keyword{Mahalanobis}
 \keyword{Site}
 \keyword{Test}
-

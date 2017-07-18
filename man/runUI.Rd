@@ -12,4 +12,3 @@ Launches the user interface.
 \examples{
 runUI()
 }
-

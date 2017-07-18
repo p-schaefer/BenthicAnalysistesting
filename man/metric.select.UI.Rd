@@ -57,4 +57,3 @@ metric.select(bio.data[201,],bio.data[nn.refsites,])
 }
 \keyword{Benthic}
 \keyword{Metrics}
-
