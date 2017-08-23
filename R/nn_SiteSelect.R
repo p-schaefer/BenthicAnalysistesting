@@ -211,13 +211,13 @@ site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, d
 #' @export
 print.match.object<-function(match.object){
   cat(paste0("Method: ",match.object$method, " with ", match.object$sig.axis, " significant axes"),"\n\n")
-  if (!is.null(match.object$k) & match.object$adaptive==T) {
+  if (!is.null(match.object$k) & match.object$distance.decay==T) {
     cat(paste0("Adaptive threshold with ",match.object$k," upper maximum nearest neigbours."))
   }
-  if (is.null(match.object$k) & match.object$adaptive==T) {
+  if (is.null(match.object$k) & match.object$distance.decay==T) {
     cat(paste0("Adaptive threshold with no upper maximum\n\n"))
   }
-  if (!is.null(match.object$k) & match.object$adaptive==F) {
+  if (!is.null(match.object$k) & match.object$distance.decay==F) {
     cat(paste0("Fixed threshold of ",match.object$k, " nearest neighbours\n\n"))
   }
   cat("Selected nearest neighbour reference sites:\n")
