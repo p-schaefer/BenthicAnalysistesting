@@ -220,8 +220,8 @@ print.match.object<-function(match.object){
   if (!is.null(match.object$k) & match.object$distance.decay==F) {
     cat(paste0("Fixed threshold of ",match.object$k, " nearest neighbours\n\n"))
   }
-  cat("Selected nearest neighbour reference sites:\n")
-  print(match.object$dist.tf)
+  #cat("Selected nearest neighbour reference sites:\n")
+  #print(match.object$dist.tf)
 }
 
 #' @export
