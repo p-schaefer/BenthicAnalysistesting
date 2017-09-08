@@ -81,7 +81,7 @@ benth.attributes<- function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.tra
         }
       }
 
-      if (!identical(HBI_index,integer(0)) & length(habitat_index)==1){
+      if (!identical(HBI_index,integer(0)) & length(HBI_index)==1){
         taxa.heirarchy[i,"HBI"]<-as.numeric(HBI_RAW$HBI[HBI_index])
         taxa.heirarchy[i,"FBI"]<-as.numeric(HBI_RAW$FBI[HBI_index])
         next
@@ -106,7 +106,7 @@ benth.attributes<- function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.tra
         }
       }
 
-      if (!identical(CEFI_index,integer(0)) & length(habitat_index)==1){
+      if (!identical(CEFI_index,integer(0)) & length(CEFI_index)==1){
         taxa.heirarchy[i,"CEFI.V"]<-as.numeric(CEFI$CEFI.V[CEFI_index])
         taxa.heirarchy[i,"CEFI.W"]<-as.numeric(CEFI$CEFI.W[CEFI_index])
         next
@@ -140,7 +140,7 @@ benth.attributes<- function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.tra
         }
       }
 
-      if (!identical(feeding_index,integer(0)) & length(habitat_index)==1){
+      if (!identical(feeding_index,integer(0)) & length(feeding_index)==1){
         taxa.heirarchy[i,"Feeding"]<-as.character(trait.feeding$TRAITVAL[feeding_index])
         next
       }
