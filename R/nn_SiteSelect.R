@@ -163,8 +163,8 @@ site.matchUI<-function(Test, Reference, k=NULL, distance.decay=T, dd.factor=2, d
     site<-dist[n,]
     site<-site[order(site)]
     if (distance.decay==T){
-      ref.TF<-c(T,T,T,T,diff(site[-c(1:3)])<=dd.constant/(1:(length(site)-4))^dd.factor)
-      names(ref.TF)[1:4]<-names(site)[1:4]
+      ref.TF<-c(T,diff(site[])<=dd.constant/(2:(length(site)))^dd.factor)
+      names(ref.TF)[1]<-names(site)[1]
       ref.TF[which.min(ref.TF):length(ref.TF)]<-F
       if (!is.null(k)) {
         ref.TF[(k+1):length(ref.TF)]<-F
