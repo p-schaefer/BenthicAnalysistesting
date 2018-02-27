@@ -50,6 +50,9 @@ braydist<-function(x) {
 richness.calc<-function(x){
   if (length(x)==0){
     return(rep(0,nrow(x)))
+  } else if (is.vector(x)) {
+    x[x>0]<-1
+    return(x)
   } else {
     rich<-NULL
     for (i in 1:nrow(x)){
