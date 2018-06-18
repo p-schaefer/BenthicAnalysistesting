@@ -51,7 +51,7 @@ benth.attributes<- function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.tra
       
       q.taxa<-taxa.heirarchy[i,n]
       
-      if (q.taxa==""){
+      if (q.taxa==""|is.na(q.taxa)){
         next #an unspecified taxon
       }
       
@@ -99,7 +99,7 @@ benth.attributes<- function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.tra
         next
       }
       q.taxa<-taxa.heirarchy[i,n]
-      if (q.taxa==""){
+      if (q.taxa==""|is.na(q.taxa)){
         next
       }
       CEFI_index<-grep(q.taxa,CEFI$Taxa)
@@ -124,7 +124,7 @@ benth.attributes<- function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.tra
         next
       }
       q.taxa<-taxa.heirarchy[i,n]
-      if (q.taxa==""){
+      if (q.taxa==""|is.na(q.taxa)){
         next
       }
       feeding_index<-grep(q.taxa,trait.feeding$TAXON)
@@ -157,7 +157,7 @@ benth.attributes<- function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.tra
         next
       }
       q.taxa<-taxa.heirarchy[i,n]
-      if (q.taxa==""){
+      if (q.taxa==""|is.na(q.taxa)){
         next
       }
       habitat_index<-grep(q.taxa,trait.habit$TAXON)
