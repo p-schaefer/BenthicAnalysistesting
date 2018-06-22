@@ -46,16 +46,17 @@ benth.metUI<-function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.trait=NUL
   summ$Richness<-richness.calc(taxa)
   summ$Simpson<-vegan::diversity(taxa,index="simpson")
   summ$Shannon<-vegan::diversity(taxa,index="shannon")
+  summ$Eveness<-vegan::diversity(taxa,index="shannon")/log(vegan::specnumber(taxa))
   summ$'Percent.Dominance'<-(apply(taxa, 1, max))/abund
   summ$'Percent.Oligochaeta'<-adapt.sum(taxa[,grep(grep.paste(c("Oligochaetae","Oligochaeta","Oligochaete","Lumbriculida","Haplotaxida","Clitellata","Naidina")),colnames(taxa))])/abund
   summ$'Percent.Chironomidae'<-adapt.sum(taxa[,grep(grep.paste(c("Chironomidae","Chironominae","Tanypodinae","Diamesinae","Orthocladiinae","Podonominae","Prodiamesinae","Telmatogetoninae")),colnames(taxa))])/abund
   summ$'Percent.Isopoda'<-adapt.sum(taxa[,grep("Isopoda",colnames(taxa))])/abund
   summ$'Percent.Amphipoda'<-adapt.sum(taxa[,grep("Amphipoda",colnames(taxa))])/abund
   summ$'Percent.Coleoptera'<-adapt.sum(taxa[,grep("Coleoptera",colnames(taxa))])/abund
-  summ$'Coleo.as.Elmidae'<-adapt.sum(taxa[,grep("Elmidae",colnames(taxa))])/adapt.sum(taxa[,grep("Coleoptera",colnames(taxa))])
   
-  summ$'Trich.as.Hydropsychidae'<-adapt.sum(taxa[,grep("Hydropsychidae",colnames(taxa))])/adapt.sum(taxa[,grep("Trichoptera",colnames(taxa))])
-  summ$'Ephem.as.Baetidae'<-adapt.sum(taxa[,grep("Baetidae",colnames(taxa))])/adapt.sum(taxa[,grep("Ephemeroptera",colnames(taxa))])
+  #summ$'Coleo.as.Elmidae'<-adapt.sum(taxa[,grep("Elmidae",colnames(taxa))])/adapt.sum(taxa[,grep("Coleoptera",colnames(taxa))])
+  #summ$'Trich.as.Hydropsychidae'<-adapt.sum(taxa[,grep("Hydropsychidae",colnames(taxa))])/adapt.sum(taxa[,grep("Trichoptera",colnames(taxa))])
+  #summ$'Ephem.as.Baetidae'<-adapt.sum(taxa[,grep("Baetidae",colnames(taxa))])/adapt.sum(taxa[,grep("Ephemeroptera",colnames(taxa))])
 
   summ$'Percent.EPT'<-adapt.sum(taxa[,grep(paste0("Ephemeroptera|Plecoptera|Trichoptera"),colnames(taxa))])/abund
   summ$'Percent.mEPT'<-(adapt.sum(taxa[,grep(paste0("Ephemeroptera|Plecoptera|Trichoptera"),colnames(taxa))])-adapt.sum(taxa[,grep(paste0("Baetidae|Hydropsychidae"),colnames(taxa))]))/abund
@@ -67,6 +68,8 @@ benth.metUI<-function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.trait=NUL
   summ$'Percent.Plec'<-adapt.sum(taxa[,grep("Plecoptera",colnames(taxa))])/abund
   summ$'Trich.Richness'<-richness.calc(taxa[,grep("Trichoptera",colnames(taxa))])
   summ$'Percent.Trich'<-adapt.sum(taxa[,grep("Trichoptera",colnames(taxa))])/abund
+  summ$'Dipt.Richness'<-richness.calc(taxa[,grep("Diptera",colnames(taxa))])
+  summ$'Percent.Dipt'<-adapt.sum(taxa[,grep("Diptera",colnames(taxa))])/abund
   
   summ$'EPT.per.EPT.and.Chir'<-adapt.sum(taxa[,grep(paste0("Ephemeroptera|Plecoptera|Trichoptera"),colnames(taxa))])/
     (adapt.sum(taxa[,grep(paste0("Ephemeroptera|Plecoptera|Trichoptera"),colnames(taxa))])+
@@ -95,6 +98,8 @@ benth.metUI<-function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.trait=NUL
   summ$'Gatherer.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Feeding=="COLLECTOR-GATHERER")]))/abund
   summ$'Gatherer.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Feeding=="COLLECTOR-GATHERER")]>0)))
   summ$'ScraperGrazer.to.Shredder.Collector'<-log(summ$'ScraperGrazer.Percent'/(summ$'Shredder.Percent'+summ$'Gatherer.Percent'))
+  summ$'Swimmer.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Habitat=="SWIMMER")]))/abund                                
+  summ$'Clinger.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Habitat=="SWIMMER")]>0)))
   summ$'Clinger.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Habitat=="CLINGER")]))/abund
   summ$'Clinger.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Habitat=="CLINGER")]>0)))
   summ$'Burrower.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Habitat=="BURROWER")]))/abund
