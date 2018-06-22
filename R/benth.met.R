@@ -87,7 +87,7 @@ benth.metUI<-function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.trait=NUL
   taxa.rel.cefi[taxa.rel.cefi<=0.05]<-0
   summ$'CEFI'<-apply(taxa.rel.cefi,1,function(x) sum((x*attributes$CEFI.V*attributes$CEFI.W)/sum(x*attributes$CEFI.W,na.rm=T),na.rm=T))
   summ$'CEFI'[summ$'CEFI'==0]<-NA
-  summ$'Predator.Percent'<-apply(taxa,1,function(x) sum(x[grep("PREDATOR",attributes$Feeding))]))/abund
+  summ$'Predator.Percent'<-apply(taxa,1,function(x) sum(x[grep("PREDATOR",attributes$Feeding)]))/abund
   summ$'Predator.Richness'<-apply(taxa,1,function(x) length(which(x[grep("PREDATOR",attributes$Feeding)]>0)))
   summ$'ScraperGrazer.Percent'<-apply(taxa,1,function(x) sum(x[grep("SCRAPER/GRAZER",attributes$Feeding)]))/abund
   summ$'ScraperGrazer.Richness'<-apply(taxa,1,function(x) length(which(x[grep("SCRAPER/GRAZER",attributes$Feeding)]>0)))
@@ -101,7 +101,7 @@ benth.metUI<-function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.trait=NUL
   summ$'Swimmer.Percent'<-apply(taxa,1,function(x) sum(x[grep("SWIMMER",attributes$Feeding)]))/abund                                
   summ$'Swimmer.Richness'<-apply(taxa,1,function(x) length(which(x[grep("SWIMMER",attributes$Feeding)]>0)))
   summ$'Clinger.Percent'<-apply(taxa,1,function(x) sum(x[grep("CLINGER",attributes$Feeding)]))/abund
-  summ$'Clinger.Richness'<-apply(taxa,1,function(x) length(which(x[grep("CLINGER",attributes$Feeding))]>0)))
+  summ$'Clinger.Richness'<-apply(taxa,1,function(x) length(which(x[grep("CLINGER",attributes$Feeding)]>0)))
   summ$'Burrower.Percent'<-apply(taxa,1,function(x) sum(x[grep("BURROWER",attributes$Feeding)]))/abund
   summ$'Burrower.Richness'<-apply(taxa,1,function(x) length(which(x[grep("BURROWER",attributes$Feeding)]>0)))
   summ$'Sprawler.Percent'<-apply(taxa,1,function(x) sum(x[grep("SPRAWLER",attributes$Feeding)]))/abund
