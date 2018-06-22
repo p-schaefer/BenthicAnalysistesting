@@ -60,7 +60,7 @@ benth.metUI<-function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.trait=NUL
 
   summ$'Percent.EPT'<-adapt.sum(taxa[,grep(paste0("Ephemeroptera|Plecoptera|Trichoptera"),colnames(taxa))])/abund
   summ$'Percent.mEPT'<-(adapt.sum(taxa[,grep(paste0("Ephemeroptera|Plecoptera|Trichoptera"),colnames(taxa))])-adapt.sum(taxa[,grep(paste0("Baetidae|Hydropsychidae"),colnames(taxa))]))/abund
-  summ$'Percent.ICHAEBO'<-(summ$'Percent.Oligochaeta'+summ$'Percent.Chironomidae'+summ$'Percent.Isopoda'+summ$'Percent.Amphipoda')+(adapt.sum(taxa[,grep(paste0("Baetidae|Hydropsychidae"),colnames(taxa))])/abund)
+  summ$'Percent.ICHAEBO'<-(summ$'Percent.Oligochaeta'+summ$'Percent.Chironomidae'+summ$'Percent.Isopoda'+summ$'Percent.Amphipoda')+(adapt.sum(taxa[,grep(paste0("Baetidae|Hydropsychidae|Elmidae"),colnames(taxa))])/abund)
   summ$'EPT.Richness'<-richness.calc(taxa[,grep("Ephemeroptera|Plecoptera|Trichoptera",colnames(taxa))])
   summ$'Ephem.Richness'<-richness.calc(taxa[,grep("Ephemeroptera",colnames(taxa))])
   summ$'Percent.Ephem'<-adapt.sum(taxa[,grep("Ephemeroptera",colnames(taxa))])/abund
@@ -87,25 +87,25 @@ benth.metUI<-function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.trait=NUL
   taxa.rel.cefi[taxa.rel.cefi<=0.05]<-0
   summ$'CEFI'<-apply(taxa.rel.cefi,1,function(x) sum((x*attributes$CEFI.V*attributes$CEFI.W)/sum(x*attributes$CEFI.W,na.rm=T),na.rm=T))
   summ$'CEFI'[summ$'CEFI'==0]<-NA
-  summ$'Predator.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Feeding=="PREDATOR")]))/abund
-  summ$'Predator.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Feeding=="PREDATOR")]>0)))
-  summ$'ScraperGrazer.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Feeding=="SCRAPER/GRAZER")]))/abund
-  summ$'ScraperGrazer.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Feeding=="SCRAPER/GRAZER")]>0)))
-  summ$'Shredder.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Feeding=="SHREDDER")]))/abund
-  summ$'Shredder.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Feeding=="SHREDDER")]>0)))
-  summ$'Filterer.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Feeding=="COLLECTOR-FILTERER")]))/abund
-  summ$'Filterer.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Feeding=="COLLECTOR-FILTERER")]>0)))
-  summ$'Gatherer.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Feeding=="COLLECTOR-GATHERER")]))/abund
-  summ$'Gatherer.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Feeding=="COLLECTOR-GATHERER")]>0)))
+  summ$'Predator.Percent'<-apply(taxa,1,function(x) sum(x[grep("PREDATOR",attributes$Feeding))]))/abund
+  summ$'Predator.Richness'<-apply(taxa,1,function(x) length(which(x[grep("PREDATOR",attributes$Feeding)]>0)))
+  summ$'ScraperGrazer.Percent'<-apply(taxa,1,function(x) sum(x[grep("SCRAPER/GRAZER",attributes$Feeding)]))/abund
+  summ$'ScraperGrazer.Richness'<-apply(taxa,1,function(x) length(which(x[grep("SCRAPER/GRAZER",attributes$Feeding)]>0)))
+  summ$'Shredder.Percent'<-apply(taxa,1,function(x) sum(x[grep("SHREDDER",attributes$Feeding)]))/abund
+  summ$'Shredder.Richness'<-apply(taxa,1,function(x) length(which(x[grep("SHREDDER",attributes$Feeding)]>0)))
+  summ$'Filterer.Percent'<-apply(taxa,1,function(x) sum(x[grep("COLLECTOR-FILTERER",attributes$Feeding)]))/abund
+  summ$'Filterer.Richness'<-apply(taxa,1,function(x) length(which(x[grep("COLLECTOR-FILTERER",attributes$Feeding)]>0)))
+  summ$'Gatherer.Percent'<-apply(taxa,1,function(x) sum(x[grep("COLLECTOR-GATHERER",attributes$Feeding)]))/abund
+  summ$'Gatherer.Richness'<-apply(taxa,1,function(x) length(which(x[grep("COLLECTOR-GATHERER",attributes$Feeding)]>0)))
   summ$'ScraperGrazer.to.Shredder.Collector'<-log(summ$'ScraperGrazer.Percent'/(summ$'Shredder.Percent'+summ$'Gatherer.Percent'))
-  summ$'Swimmer.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Habitat=="SWIMMER")]))/abund                                
-  summ$'Swimmer.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Habitat=="SWIMMER")]>0)))
-  summ$'Clinger.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Habitat=="CLINGER")]))/abund
-  summ$'Clinger.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Habitat=="CLINGER")]>0)))
-  summ$'Burrower.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Habitat=="BURROWER")]))/abund
-  summ$'Burrower.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Habitat=="BURROWER")]>0)))
-  summ$'Sprawler.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Habitat=="SPRAWLER")]))/abund
-  summ$'Sprawler.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Habitat=="SPRAWLER")]>0)))
+  summ$'Swimmer.Percent'<-apply(taxa,1,function(x) sum(x[grep("SWIMMER",attributes$Feeding)]))/abund                                
+  summ$'Swimmer.Richness'<-apply(taxa,1,function(x) length(which(x[grep("SWIMMER",attributes$Feeding)]>0)))
+  summ$'Clinger.Percent'<-apply(taxa,1,function(x) sum(x[grep("CLINGER",attributes$Feeding)]))/abund
+  summ$'Clinger.Richness'<-apply(taxa,1,function(x) length(which(x[grep("CLINGER",attributes$Feeding))]>0)))
+  summ$'Burrower.Percent'<-apply(taxa,1,function(x) sum(x[grep("BURROWER",attributes$Feeding)]))/abund
+  summ$'Burrower.Richness'<-apply(taxa,1,function(x) length(which(x[grep("BURROWER",attributes$Feeding)]>0)))
+  summ$'Sprawler.Percent'<-apply(taxa,1,function(x) sum(x[grep("SPRAWLER",attributes$Feeding)]))/abund
+  summ$'Sprawler.Richness'<-apply(taxa,1,function(x) length(which(x[grep("SPRAWLER",attributes$Feeding)]>0)))
   summ$'Burrower.to.Sprawler.Clinger'<-log(summ$'Burrower.Percent'/(summ$'Clinger.Percent'+summ$'Sprawler.Percent'))
 
   summ<-as.data.frame(summ)
