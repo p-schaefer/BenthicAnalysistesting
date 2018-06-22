@@ -99,7 +99,7 @@ benth.metUI<-function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.trait=NUL
   summ$'Gatherer.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Feeding=="COLLECTOR-GATHERER")]>0)))
   summ$'ScraperGrazer.to.Shredder.Collector'<-log(summ$'ScraperGrazer.Percent'/(summ$'Shredder.Percent'+summ$'Gatherer.Percent'))
   summ$'Swimmer.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Habitat=="SWIMMER")]))/abund                                
-  summ$'Clinger.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Habitat=="SWIMMER")]>0)))
+  summ$'Swimmer.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Habitat=="SWIMMER")]>0)))
   summ$'Clinger.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Habitat=="CLINGER")]))/abund
   summ$'Clinger.Richness'<-apply(taxa,1,function(x) length(which(x[which(attributes$Habitat=="CLINGER")]>0)))
   summ$'Burrower.Percent'<-apply(taxa,1,function(x) sum(x[which(attributes$Habitat=="BURROWER")]))/abund
