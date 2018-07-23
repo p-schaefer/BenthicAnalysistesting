@@ -1,29 +1,4 @@
 ########################################################
-#Utility functions
-#
-########################################################
-#' @export
-paste.rep<-function(x,y){ # Utility function needed for describing decision rules
-  if (length(x)==1){
-    paste0(x,"; ",y)
-  } else {
-    paste(x,rep(y,times=length(x)),sep="; ")
-    
-  }
-}
-
-#' @export
-print.benth.taxnames<-function(x,...){
-  attributes(x)<-NULL
-  print(x)
-}
-
-#' @export
-print.benth.taxroll<-function(x,...){
-  print(x$decisions)
-}
-
-########################################################
 #Function to clean taxonomic names, match with ITIS (secondary matched to NCBI and EOL). 
 #
 #
