@@ -98,14 +98,14 @@ benth.metUI<-function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.trait=NUL
   summ$'Gatherer.Percent'<-apply(taxa,1,function(x) sum(x[grep("COLLECTOR-GATHERER",attributes$Feeding)]))/abund
   summ$'Gatherer.Richness'<-apply(taxa,1,function(x) length(which(x[grep("COLLECTOR-GATHERER",attributes$Feeding)]>0)))
   summ$'ScraperGrazer.to.Shredder.Collector'<-log(summ$'ScraperGrazer.Percent'/(summ$'Shredder.Percent'+summ$'Gatherer.Percent'))
-  summ$'Swimmer.Percent'<-apply(taxa,1,function(x) sum(x[grep("SWIMMER",attributes$Feeding)]))/abund                                
-  summ$'Swimmer.Richness'<-apply(taxa,1,function(x) length(which(x[grep("SWIMMER",attributes$Feeding)]>0)))
-  summ$'Clinger.Percent'<-apply(taxa,1,function(x) sum(x[grep("CLINGER",attributes$Feeding)]))/abund
-  summ$'Clinger.Richness'<-apply(taxa,1,function(x) length(which(x[grep("CLINGER",attributes$Feeding)]>0)))
-  summ$'Burrower.Percent'<-apply(taxa,1,function(x) sum(x[grep("BURROWER",attributes$Feeding)]))/abund
-  summ$'Burrower.Richness'<-apply(taxa,1,function(x) length(which(x[grep("BURROWER",attributes$Feeding)]>0)))
-  summ$'Sprawler.Percent'<-apply(taxa,1,function(x) sum(x[grep("SPRAWLER",attributes$Feeding)]))/abund
-  summ$'Sprawler.Richness'<-apply(taxa,1,function(x) length(which(x[grep("SPRAWLER",attributes$Feeding)]>0)))
+  summ$'Swimmer.Percent'<-apply(taxa,1,function(x) sum(x[grep("SWIMMER",attributes$Habitat)]))/abund                                
+  summ$'Swimmer.Richness'<-apply(taxa,1,function(x) length(which(x[grep("SWIMMER",attributes$Habitat)]>0)))
+  summ$'Clinger.Percent'<-apply(taxa,1,function(x) sum(x[grep("CLINGER",attributes$Habitat)]))/abund
+  summ$'Clinger.Richness'<-apply(taxa,1,function(x) length(which(x[grep("CLINGER",attributes$Habitat)]>0)))
+  summ$'Burrower.Percent'<-apply(taxa,1,function(x) sum(x[grep("BURROWER",attributes$Habitat)]))/abund
+  summ$'Burrower.Richness'<-apply(taxa,1,function(x) length(which(x[grep("BURROWER",attributes$Habitat)]>0)))
+  summ$'Sprawler.Percent'<-apply(taxa,1,function(x) sum(x[grep("SPRAWLER",attributes$Habitat)]))/abund
+  summ$'Sprawler.Richness'<-apply(taxa,1,function(x) length(which(x[grep("SPRAWLER",attributes$Habitat)]>0)))
   summ$'Burrower.to.Sprawler.Clinger'<-log(summ$'Burrower.Percent'/(summ$'Clinger.Percent'+summ$'Sprawler.Percent'))
 
   summ<-as.data.frame(summ)
