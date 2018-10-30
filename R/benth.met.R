@@ -19,9 +19,9 @@ benth.metUI<-function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.trait=NUL
   #MAKE SURE TAXA NAMES KEEP TRAILING ";"
   
 
-  if (any(grepl("1",colnames(x)))) {
-    stop("Duplicate taxa names are not permitted")
-  }
+  #if (any(grepl("1",colnames(x)))) {
+  #  stop("Duplicate taxa names are not permitted")
+  #}
   
   if (taxa.sep!=";"){
     colnames(x)<-gsub(taxa.sep,";",colnames(x),fixed = T)
