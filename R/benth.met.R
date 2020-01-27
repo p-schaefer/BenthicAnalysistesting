@@ -78,8 +78,8 @@ benth.metUI<-function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.trait=NUL
   summ$'Percent.Non.Chir.Dip'<-1-(adapt.sum(taxa[,grep(grep.paste(c("Chironomidae","Chironominae","Tanypodinae","Diamesinae","Orthocladiinae","Podonominae","Prodiamesinae","Telmatogetoninae")),colnames(taxa))])/adapt.sum(taxa[,grep(paste0("Diptera"),colnames(taxa))]))
   summ$'Percent.CIGH'<-adapt.sum(taxa[,grep("Corixidae|Hirudinea|Isopoda|Gastropoda",colnames(taxa))])/abund
   
-  summ$'Intolerants.Richness'<-apply(taxa.intol, 1, function(x) length(which(x>0)))
-  summ$'Percent.Intolerants'<-adapt.sum(taxa.intol)/abund
+  #summ$'Intolerants.Richness'<-apply(taxa.intol, 1, function(x) length(which(x>0)))
+  #summ$'Percent.Intolerants'<-adapt.sum(taxa.intol)/abund
   
   summ$'HBI'<-apply(taxa,1,function(x) sum((x*attributes$HBI)/sum(x,na.rm=T),na.rm=T))
   
