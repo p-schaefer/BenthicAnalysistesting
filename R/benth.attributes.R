@@ -18,14 +18,14 @@ benth.attributes<- function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.tra
     #trait.feeding<-BenthicAnalysistesting::trait.feeding
     trait.feeding$TAXON<-gsub(".",";",trait.feeding$TAXON,fixed=T)
   } else {
-    trait.feeding<-data.frame(trait.feeding)
+    trait.feeding<-data.frame(f.trait)
   }
   if (is.null(h.trait)) {
     #trait.habit<-BenthicAnalysistesting::trait.habit
     data(trait.habit,envir = environment())
     trait.habit$TAXON<-gsub(".",";",trait.habit$TAXON,fixed=T)
   } else {
-    trait.habit<-data.frame(trait.habit)
+    trait.habit<-data.frame(h.trait)
   }
   
   #if (any(grepl("1",colnames(x)))) {
