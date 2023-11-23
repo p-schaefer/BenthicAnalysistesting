@@ -4,8 +4,7 @@
 \alias{metric.select.UI}
 \title{Indicator metric selection}
 \usage{
-metric.select.UI(Test, Reference, outlier.rem = T, rank = F,
-  outbound = 0.1)
+metric.select.UI(Test, Reference, outlier.rem = T, rank = F, outbound = 0.1)
 }
 \arguments{
 \item{Test}{Vector containing metric scores at the test site. Should be a single row from \code{benth.met} or \code{add.met}.}

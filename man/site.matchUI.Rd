@@ -4,8 +4,16 @@
 \alias{site.matchUI}
 \title{Match test sites with reference sites}
 \usage{
-site.matchUI(Test, Reference, k = NULL, distance.decay = T, dd.factor = 2,
-  dd.constant = 1, RDA.reference = NULL, scale = T)
+site.matchUI(
+  Test,
+  Reference,
+  k = NULL,
+  distance.decay = T,
+  dd.factor = 2,
+  dd.constant = 1,
+  RDA.reference = NULL,
+  scale = T
+)
 }
 \arguments{
 \item{Test}{Vector of environmental variables at Test site}

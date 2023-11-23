@@ -1,28 +1,28 @@
 #' @export
 benth.attributes<- function(x,taxa.sep=";",HBI=NULL,CEFI=NULL,f.trait=NULL,h.trait=NULL) {
   if (is.null(HBI)) {
-    #HBI_RAW<-BenthicAnalysistesting::HBI_RAW
-    data(HBI_RAW,envir = environment())
+    HBI_RAW<-BenthicAnalysistesting::HBI_RAW
+    #data(HBI_RAW,envir = environment())
   } else {
     HBI_RAW<-data.frame(HBI)
   }
   if (is.null(CEFI)) {
-    #CEFI<-BenthicAnalysistesting::CEFI
-    data(CEFI,envir = environment())
+    CEFI<-BenthicAnalysistesting::CEFI
+    #data(CEFI,envir = environment())
     CEFI$Taxa<-toupper(CEFI$Taxa)
   } else {
     CEFI<-data.frame(CEFI)
   }
   if (is.null(f.trait)) {
-    data(trait.feeding,envir = environment())
-    #trait.feeding<-BenthicAnalysistesting::trait.feeding
+    #data(trait.feeding,envir = environment())
+    trait.feeding<-BenthicAnalysistesting::trait.feeding
     trait.feeding$TAXON<-gsub(".",";",trait.feeding$TAXON,fixed=T)
   } else {
     trait.feeding<-data.frame(f.trait)
   }
   if (is.null(h.trait)) {
-    #trait.habit<-BenthicAnalysistesting::trait.habit
-    data(trait.habit,envir = environment())
+    trait.habit<-BenthicAnalysistesting::trait.habit
+    #data(trait.habit,envir = environment())
     trait.habit$TAXON<-gsub(".",";",trait.habit$TAXON,fixed=T)
   } else {
     trait.habit<-data.frame(h.trait)

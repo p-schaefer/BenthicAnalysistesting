@@ -4,8 +4,16 @@
 \alias{tsa.test.UI}
 \title{Test Site Analysis Function}
 \usage{
-tsa.test.UI(Test, Reference, distance = NULL, outlier.rem = F,
-  m.select = F, rank = F, na.cutoff = 0.7, outbound = 0.1)
+tsa.test.UI(
+  Test,
+  Reference,
+  distance = NULL,
+  outlier.rem = F,
+  m.select = F,
+  rank = F,
+  na.cutoff = 0.7,
+  outbound = 0.1
+)
 }
 \arguments{
 \item{Test}{Data frame of metric scores at the test site.}

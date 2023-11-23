@@ -15,4 +15,4 @@ Description: A package for analysis of Benthic Macroinvertebrate (BMI) data
 Imports: vegan, plyr
 License: GPL (>= 2)
 LazyData: TRUE
-RoxygenNote: 6.0.1
+RoxygenNote: 7.2.3

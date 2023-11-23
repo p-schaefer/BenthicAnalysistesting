@@ -4,8 +4,14 @@
 \alias{benth.metUI}
 \title{Benthic Metric Calculation}
 \usage{
-benth.metUI(x, taxa.sep = ";", HBI = NULL, CEFI = NULL, f.trait = NULL,
-  h.trait = NULL)
+benth.metUI(
+  x,
+  taxa.sep = ";",
+  HBI = NULL,
+  CEFI = NULL,
+  f.trait = NULL,
+  h.trait = NULL
+)
 }
 \arguments{
 \item{x}{data.frame with sampling events in rows and taxa in columns. No row or column names should be defined}
