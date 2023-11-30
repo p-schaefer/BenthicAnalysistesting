@@ -1,9 +1,9 @@
 #' Reference specific Benthic Metric Calculation
 #'
 #' Calculation of a variety of metrics for determing impairment of Benthic Macroinvertebrate Communities, based on available Reference Condition information.
-#' @param Test.taxa Output of \code{\link[BenthicAnalysis]{benth.met}}$Raw.Data for the test site
-#' @param Reference.taxa Output of \code{\link[BenthicAnalysis]{benth.met}}$Raw.Data for the Reference site
-#' @return Indicator metrics caluclated from \code{\link[BenthicAnalysis]{benth.met}} in addition to O:E ratios and Bray-Curtis Distance.
+#' @param Test.taxa Output of \code{\link[BenthicAnalysistesting]{benth.met}}$Raw.Data for the test site
+#' @param Reference.taxa Output of \code{\link[BenthicAnalysistesting]{benth.met}}$Raw.Data for the Reference site
+#' @return Indicator metrics caluclated from \code{\link[BenthicAnalysistesting]{benth.met}} in addition to O:E ratios and Bray-Curtis Distance.
 #' @keywords Benthic Metrics
 #' @export
 #' @examples

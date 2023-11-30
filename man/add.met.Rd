@@ -7,12 +7,12 @@
 add.met(Test, Reference, original = F, tax.fields = 2)
 }
 \arguments{
-\item{Test.taxa}{Output of \code{\link[BenthicAnalysis]{benth.met}}$Raw.Data for the test site}
+\item{Test.taxa}{Output of \code{\link[BenthicAnalysistesting]{benth.met}}$Raw.Data for the test site}
 
-\item{Reference.taxa}{Output of \code{\link[BenthicAnalysis]{benth.met}}$Raw.Data for the Reference site}
+\item{Reference.taxa}{Output of \code{\link[BenthicAnalysistesting]{benth.met}}$Raw.Data for the Reference site}
 }
 \value{
-Indicator metrics caluclated from \code{\link[BenthicAnalysis]{benth.met}} in addition to O:E ratios and Bray-Curtis Distance.
+Indicator metrics caluclated from \code{\link[BenthicAnalysistesting]{benth.met}} in addition to O:E ratios and Bray-Curtis Distance.
 }
 \description{
 Calculation of a variety of metrics for determing impairment of Benthic Macroinvertebrate Communities, based on available Reference Condition information.

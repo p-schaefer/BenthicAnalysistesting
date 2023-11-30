@@ -6,9 +6,9 @@
 #' runUI()
 
 runUI <- function() {
-  appDir <- system.file("shiny", "myapp", package = "BenthicAnalysis")
+  appDir <- system.file("shiny", "myapp", package = "BenthicAnalysistesting")
   if (appDir == "") {
-    stop("Could not find example directory. Try re-installing BenthicAnalysis.", call. = FALSE)
+    stop("Could not find example directory. Try re-installing BenthicAnalysistesting.", call. = FALSE)
   }
   
   shiny::runApp(appDir, display.mode = "normal")

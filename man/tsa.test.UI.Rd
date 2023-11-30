@@ -20,7 +20,7 @@ tsa.test.UI(
 
 \item{Reference}{Data frame of metric scores at the reference sites.}
 
-\item{distance}{Vector of weights to use for optional weighted Mahalanobis Distance calculation. Can be output of \code{\link[BenthicAnalysis]{site.match}}$final.dist,
+\item{distance}{Vector of weights to use for optional weighted Mahalanobis Distance calculation. Can be output of \code{\link[BenthicAnalysistesting]{site.match}}$final.dist,
 or NULL for unweighted Mahalanobis Distance Calculation}
 
 \item{outlier.rem}{Logical argument indicating whether \code{\link[mvoutlier]{pcout}} should be used to remove outliers from the Reference set.}
@@ -49,9 +49,9 @@ $z.scores - Table containing test and reference sites metrics standrdized to z-s
 \description{
 Implimentation of Bowman and Somers (2006) Test Site Analysis (\url{http://goo.gl/h4JAGP}).
 For implimenation as in Bowman and Somers (2006) use distance=NULL, outlier.rem=F, m.select=F. This function allows optional funcationality including automatic selection of
-indicator metrics using \code{\link[BenthicAnalysis]{metric.select}}, as well as outlier removal from the reference set using \code{\link[mvoutlier]{arw}} or \code{\link[mvoutlier]{pcout}}.
+indicator metrics using \code{\link[BenthicAnalysistesting]{metric.select}}, as well as outlier removal from the reference set using \code{\link[mvoutlier]{arw}} or \code{\link[mvoutlier]{pcout}}.
 An alternative mahalnobis distance calculation is also implimented using weighted means and covariance matrix. The weights are supplied from
-the ecological distance between test sites and reference sites using \code{\link[BenthicAnalysis]{site.match}}.
+the ecological distance between test sites and reference sites using \code{\link[BenthicAnalysistesting]{site.match}}.
 }
 \examples{
 #load datasets

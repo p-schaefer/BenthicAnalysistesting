@@ -19,7 +19,18 @@ License: GPL (>= 2)
 Imports: 
     plyr,
     taxize,
-    vegan
+    vegan,
+    car,
+    scales,
+    shiny,
+    RColorBrewer,
+    ggplot2,
+    purrr,
+    dplyr,
+    tibble,
+    tidyr,
+    reshape2,
+    lazyeval
 Encoding: UTF-8
 LazyData: TRUE
 RoxygenNote: 7.2.3
